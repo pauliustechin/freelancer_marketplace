@@ -3,13 +3,13 @@ import useUsersStore from "../../store/usersStore";
 import { PulseLoader } from "react-spinners";
 
 const AuthProvider = ({ children }) => {
-  const { fetchCurrentUser, isLoading } = useUsersStore((state) => state);
+  const { fetchCurrentUser, authMeIsLoading } = useUsersStore((state) => state);
 
   useEffect(() => {
     fetchCurrentUser();
   }, [fetchCurrentUser]);
 
-  if (isLoading) {
+  if (authMeIsLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
         <PulseLoader color="#38b9da" size={50} />

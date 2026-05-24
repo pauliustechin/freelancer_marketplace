@@ -1,6 +1,6 @@
 import HomePage from "./pages/public/HomePage";
 import LoginPage from "./pages/auth/LoginPage";
-import { Routes, Route } from "react-router";
+import { Routes, Route, Navigate } from "react-router";
 import ProjectsPage from "./pages/public/projects/ProjectsPage";
 import RegisterPage from "./pages/auth/RegisterPage";
 import PrivateRoute from "./components/shared/PrivateRoute";
@@ -29,13 +29,13 @@ function App() {
             <Route path=":projectId" element={<ProjectInfo />} />
           </Route>
 
-          <Route path="/" element={<PrivateRoute publicPage />}>
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
+          <Route element={<PrivateRoute publicPage />}>
+            <Route path="login" element={<LoginPage />} />
+            <Route path="register" element={<RegisterPage />} />
           </Route>
 
-          <Route path="/" element={<PrivateRoute clientOnly />}>
-            <Route path="/client" element={<ClientPage />}>
+          <Route element={<PrivateRoute clientOnly />}>
+            <Route path="client" element={<ClientPage />}>
               <Route path="" element={<ClientDashboard/>}/>
               <Route path="projects/:projectId" element={<ProjectBidsTable />}/>
               <Route path="create-project" element={<CreateProject />}/>
@@ -44,16 +44,18 @@ function App() {
             </Route>
           </Route>
 
-          <Route path="/" element={<PrivateRoute freelancerOnly />}>
-            <Route path="/freelancer" element={<FreelancerPage />} >
+          <Route element={<PrivateRoute freelancerOnly />}>
+            <Route path="freelancer" element={<FreelancerPage />} >
               <Route path="" element={<FreelancerDashboard/>}/>
               <Route path="contracts" element={<ContractsTable />}/>
             </Route>
           </Route>
 
-          <Route path="/" element={<PrivateRoute adminOnly />}>
-            <Route path="/admin" element={<AdminPage />} />
+          <Route element={<PrivateRoute adminOnly />}>
+            <Route path="admin" element={<AdminPage />} />
           </Route>
+
+           <Route path="*" element={<Navigate to="/login" />}></Route>
         </Routes>
       </AuthProvider>
     </>

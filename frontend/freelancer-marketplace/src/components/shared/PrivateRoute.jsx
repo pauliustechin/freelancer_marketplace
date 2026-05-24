@@ -9,28 +9,32 @@ const PrivateRoute = ({ publicPage = false, freelancerOnly = false, clientOnly =
   const isClient = roles?.includes("ROLE_CLIENT");
   const isAdmin = roles?.includes("ROLE_ADMIN");
 
-  if(publicPage) {
-    return username ? <Navigate to="/" /> : < Outlet />;
+  if (publicPage) {
+    if (isAdmin) return <Navigate to="/admin" />;
+    if (isFreelancer) return <Navigate to="/freelancer" />;
+    if (isClient) return <Navigate to="/client" />;
+
+    return <Outlet />;
   }
 
-  if(freelancerOnly){
-    if(!isFreelancer){
+  if (freelancerOnly) {
+    if (!isFreelancer) {
       return username ? <Navigate to="/" /> : <Navigate to="/login" />;
     } else {
       return <Outlet />
     }
   }
 
-  if(clientOnly){
-    if(!isClient){
+  if (clientOnly) {
+    if (!isClient) {
       return username ? <Navigate to="/" /> : <Navigate to="/login" />;
     } else {
       return <Outlet />
     }
   }
 
-  if(adminOnly){
-    if(!isAdmin){
+  if (adminOnly) {
+    if (!isAdmin) {
       return username ? <Navigate to="/" /> : <Navigate to="/login" />;
     } else {
       return <Outlet />
