@@ -15,6 +15,6 @@ public interface ProjectService {
     ProjectResponse createProject(CreateProjectRequest createRequest, Long clientId);
     ProjectResponse updateProject(Long projectId, UpdateProjectRequest updateRequest);
     void deleteProject(Long projectId);
-    ProjectListResponse searchForProject(ProjectStatus status, String projectName, LocalDate projectStart, Pageable pageable);
+    ProjectListResponse getAllProjects(ProjectStatus status, String projectName, LocalDate projectStart, Pageable pageable);
     List<ProjectResponse> getClientProjects(Authentication authentication);
 }

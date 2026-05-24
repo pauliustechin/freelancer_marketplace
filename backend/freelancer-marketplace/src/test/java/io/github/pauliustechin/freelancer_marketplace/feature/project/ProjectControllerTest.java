@@ -147,7 +147,7 @@ class ProjectControllerTest {
     @DisplayName("Should return ProjectListResponse with status code 200.")
     public void shouldReturnProjectListResponseWithStatus200() throws Exception {
 
-        given(projectService.searchForProject(eq(ProjectStatus.OPEN), isNull(), isNull(), any(Pageable.class)))
+        given(projectService.getAllProjects(eq(ProjectStatus.OPEN), isNull(), isNull(), any(Pageable.class)))
                 .willReturn(projectListResponse);
 
         mockMvc.perform(get("/api/projects")
@@ -158,7 +158,7 @@ class ProjectControllerTest {
                 .andExpect(jsonPath("$.content[0].projectStatus").value("OPEN"));
 
         verify(projectService, times(1))
-                .searchForProject(eq(ProjectStatus.OPEN), isNull(), isNull(), any(Pageable.class));
+                .getAllProjects(eq(ProjectStatus.OPEN), isNull(), isNull(), any(Pageable.class));
 
     }
 

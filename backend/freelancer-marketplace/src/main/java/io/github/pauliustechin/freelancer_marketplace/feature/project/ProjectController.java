@@ -32,14 +32,14 @@ public class ProjectController {
     @Tag(name = "Public APIs", description = "APIs for managing public requests")
     @Operation(summary = "Get projects depending on search criteria")
     @GetMapping("/projects")
-    public ResponseEntity<ProjectListResponse> searchForProjects(
+    public ResponseEntity<ProjectListResponse> getAllProducts(
             @RequestParam(required = false) ProjectStatus status,
             @RequestParam(required = false) String projectName,
             @RequestParam(required = false) LocalDate projectStart,
             @ParameterObject @PageableDefault(page = 0, size = 10, sort="createdAt", direction = Sort.Direction.DESC) Pageable pageable
     ) {
 
-        ProjectListResponse projectListResponse = projectService.searchForProject(status, projectName, projectStart, pageable);
+        ProjectListResponse projectListResponse = projectService.getAllProjects(status, projectName, projectStart, pageable);
 
         return ResponseEntity.ok().body(projectListResponse);
     }
