@@ -96,7 +96,7 @@ public class WebSecurityConfig {
                                 "/webjars/**").permitAll()
                         .requestMatchers("/h2-console/**").permitAll()
                         .requestMatchers("/api/test/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/freelancers", "/api/projects").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/freelancers", "/api/projects/**").permitAll()
                         .anyRequest().authenticated());
 
         http.authenticationProvider(authenticationProvider());

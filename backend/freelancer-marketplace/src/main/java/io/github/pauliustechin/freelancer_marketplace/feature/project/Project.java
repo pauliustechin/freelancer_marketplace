@@ -5,11 +5,11 @@ import io.github.pauliustechin.freelancer_marketplace.feature.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
-
 
 @Entity
 @AllArgsConstructor
@@ -18,7 +18,7 @@ import java.util.Set;
 @Setter
 @Builder
 @Table(name = "projects")
-public class Project {
+public class Project implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

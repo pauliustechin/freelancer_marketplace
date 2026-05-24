@@ -10,6 +10,10 @@ import io.github.pauliustechin.freelancer_marketplace.feature.user.UserRepositor
 import io.github.pauliustechin.freelancer_marketplace.security.service.UserDetailsImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -17,6 +21,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
@@ -25,6 +31,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
+@CacheConfig(cacheNames = "projects")
 @Service
 public class ProjectServiceImpl implements ProjectService{
 
@@ -35,9 +42,9 @@ public class ProjectServiceImpl implements ProjectService{
     private final BidRepository bidRepository;
     private final UserRepository userRepository;
 
+    @Cacheable(value = "projects", key = "T(java.util.Objects).hash(#status, #projectName, #startsAfter, #pageable)")
     @Override
-    @Transactional
-    public ProjectListResponse searchForProject(
+    public ProjectListResponse getAllProjects(
             ProjectStatus status,
             String projectName,
             LocalDate startsAfter,
@@ -121,6 +128,7 @@ public class ProjectServiceImpl implements ProjectService{
         return response;
     }
 
+    @CacheEvict(value = "projects", allEntries = true)
     @Transactional
     @Override
     public ProjectResponse updateProject(Long projectId, UpdateProjectRequest updateRequest) {
@@ -157,6 +165,7 @@ public class ProjectServiceImpl implements ProjectService{
         return projectMapper.projectToProjectResponse(updatedProject);
     }
 
+    @CacheEvict(value = "projects", allEntries = true)
     @Transactional
     @Override
     public void deleteProject(Long projectId) {
@@ -169,4 +178,5 @@ public class ProjectServiceImpl implements ProjectService{
 
         logger.info("Project deleted successfully with projectId={}", projectId);
     }
+
 }
